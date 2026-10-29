@@ -1,0 +1,14 @@
+name: Test FTP (tymczasowy)
+on:
+  push:
+    branches: [ftp-test]
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Logowanie FTPS (curl)
+        run: curl -sS --ssl-reqd -k --max-time 30 -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" "ftp://${{ secrets.FTP_SERVER }}/" -l > /tmp/root.txt
+      - name: Jest katalog domains/uxaudyt.pl
+        run: curl -sS --ssl-reqd -k --max-time 30 -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" "ftp://${{ secrets.FTP_SERVER }}/domains/" -l | grep -qx 'uxaudyt.pl'
+      - name: Długość nazwy serwera > 0
+        run: test -n "${{ secrets.FTP_SERVER }}"
