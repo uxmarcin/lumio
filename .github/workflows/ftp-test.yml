@@ -15,4 +15,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server-dir: ./domains/lumioagency.pl/public_html/
+          port: 21
+          security: loose
           dry-run: true
